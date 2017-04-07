@@ -87,8 +87,6 @@ int main(void)
 		i = 1;
 		while (args[i-1] != NULL) {
 			args[i] = strtok(NULL, " ");
-			if (args[i] == ">>")
-				;
 			i++;
 		}
 

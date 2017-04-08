@@ -115,9 +115,10 @@ int main(void)
 		} else {
 			if (backgr != 1) {
 				errno = 0;
-				do
+				/*do
 					child_pid = wait(&i);
-				while (errno != ECHILD);
+				while (errno != ECHILD);*/
+				waitpid(pid, &i, 0);
 			} else
 				backgr = 0;
 		}

@@ -4,7 +4,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/wait.h>
-#include <errno.h>
 
 #define BUFSIZE 512
 
@@ -114,10 +113,6 @@ int main(void)
 			}
 		} else {
 			if (backgr != 1) {
-				errno = 0;
-				/*do
-					child_pid = wait(&i);
-				while (errno != ECHILD);*/
 				waitpid(pid, &i, 0);
 			} else
 				backgr = 0;

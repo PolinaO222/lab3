@@ -4,8 +4,15 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 #define BUFSIZE 512
+
+void my_handler(int s)
+{
+	printf(" signal caught.\n");
+	exit(1);
+}
 
 int main(void)
 {
@@ -17,6 +24,11 @@ int main(void)
 	pid_t pid;
 	pid_t child_pid;
 	int i, arg_n, backgr, len;
+	struct sigaction sigIntHandler, old;
+
+	sigIntHandler.sa_handler = SIG_IGN;
+	sigemptyset(&sigIntHandler.sa_mask);
+	sigIntHandler.sa_flags = 0;
 
 	/* strcpy(str, "\033[H\033[J"); */
 	/* write(1, str,strlen(str)); */
@@ -113,6 +125,7 @@ int main(void)
 			}
 		} else {
 			if (backgr != 1) {
+				sigaction(SIGINT, &sigIntHandler, NULL);
 				waitpid(pid, &i, 0);
 			} else
 				backgr = 0;

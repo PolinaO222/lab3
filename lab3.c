@@ -8,12 +8,6 @@
 
 #define BUFSIZE 512
 
-void my_handler(int s)
-{
-	printf(" signal caught.\n");
-	exit(1);
-}
-
 int main(void)
 {
 	char str[BUFSIZE];
@@ -24,7 +18,7 @@ int main(void)
 	pid_t pid;
 	pid_t child_pid;
 	int i, arg_n, backgr, len;
-	struct sigaction sigIntHandler, old;
+	struct sigaction sigIntHandler;
 
 	sigIntHandler.sa_handler = SIG_IGN;
 	sigemptyset(&sigIntHandler.sa_mask);

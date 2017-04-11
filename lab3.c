@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <pwd.h>
 
 #define BUFSIZE 512
 
@@ -18,6 +19,7 @@ int main(void)
 	pid_t pid;
 	pid_t child_pid;
 	int i, arg_n, backgr, len;
+	struct passwd *pw;
 	struct sigaction sigIntHandler;
 
 	sigIntHandler.sa_handler = SIG_IGN;
@@ -50,8 +52,12 @@ int main(void)
 			strcpy(str, username);
 			strcpy(username, "");
 			strncat(username, str, len);
-		} else
+		} else {
 			strcpy(tempdir, str);
+          		pw = getpwuid(geteuid());
+			if (pw)
+				strcpy(username, pw->pw_name);
+		}
 
 		strcpy(myname, "\e[32m\e[1m");
 		strcat(myname, username);
